@@ -1,3 +1,5 @@
+use gpui::ColorExt as _;
+
 use gpui::{
     App, ElementId, InteractiveElement, IntoElement, MouseButton, ObjectFit, ParentElement,
     RenderOnce, StatefulInteractiveElement, Styled, Window, div,

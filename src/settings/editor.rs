@@ -1,6 +1,7 @@
 use std::rc::Rc;
 
 use gpui::{App, ElementId, Hsla, IntoElement, ParentElement, RenderOnce, Styled, Window, div};
+use gpui::ColorExt as _;
 
 use super::{DensitySelector, SettingsRow, SettingsSection};
 use crate::{

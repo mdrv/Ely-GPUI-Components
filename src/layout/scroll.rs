@@ -1,3 +1,5 @@
+use gpui::ColorExt as _;
+
 use std::{cell::Cell, rc::Rc, time::Duration};
 
 use gpui::{

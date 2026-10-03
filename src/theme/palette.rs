@@ -1,4 +1,6 @@
-use gpui::{Hsla, Rgba, rgb, rgba};
+use gpui::ColorExt as _;
+use gpui::{rgb, rgba, Hsla, Rgba};
+use palette::{rgb::Rgb, IntoColor};
 
 use super::Mode;
 
@@ -17,12 +19,14 @@ impl Mix for Hsla {
         let (a, b) = (self.to_rgb(), to.to_rgb());
         let lerp = |x: f32, y: f32| x + (y - x) * t;
         Rgba {
-            r: lerp(a.r, b.r),
-            g: lerp(a.g, b.g),
-            b: lerp(a.b, b.b),
-            a: lerp(a.a, b.a),
+            color: Rgb::new(
+                lerp(a.color.red, b.color.red),
+                lerp(a.color.green, b.color.green),
+                lerp(a.color.blue, b.color.blue),
+            ),
+            alpha: lerp(a.alpha, b.alpha),
         }
-        .into()
+        .into_color()
     }
 }
 
@@ -140,7 +144,7 @@ mixable!(
 );
 
 fn c(hex: u32) -> Hsla {
-    rgb(hex).into()
+    rgb(hex).into_color()
 }
 
 fn c8<const N: usize>(hex: [u32; N]) -> [Hsla; N] {
@@ -193,7 +197,7 @@ impl Palette {
             on_media: c(0xffffff),
             focus: c(0x3772bb),
             link: c(0x2863ab),
-            selection: rgba(0x3772bb33).into(),
+            selection: rgba(0x3772bb33).into_color(),
             success: c(0x267b4c),
             warning: c(0xa25f12),
             danger: c(0xba3e38),
@@ -202,10 +206,10 @@ impl Palette {
             warning_subtle: c(0xfef2dd),
             danger_subtle: c(0xffefec),
             info_subtle: c(0xebf4ff),
-            backdrop: rgba(0x18161352).into(),
-            media_backdrop: rgba(0x0e0d0bf8).into(),
-            shimmer: rgba(0xffffffb3).into(),
-            glass: rgba(0xfcfaf7b8).into(),
+            backdrop: rgba(0x18161352).into_color(),
+            media_backdrop: rgba(0x0e0d0bf8).into_color(),
+            shimmer: rgba(0xffffffb3).into_color(),
+            glass: rgba(0xfcfaf7b8).into_color(),
             shadow: c(0x181613),
             tooltip_bg: c(0x181613),
             tooltip_fg: c(0xfcfaf7),
@@ -264,7 +268,7 @@ impl Palette {
             on_media: c(0xffffff),
             focus: c(0x69a1e8),
             link: c(0x7eb1f3),
-            selection: rgba(0x69a1e84d).into(),
+            selection: rgba(0x69a1e84d).into_color(),
             success: c(0x6bbc89),
             warning: c(0xe8b45e),
             danger: c(0xe5756e),
@@ -273,10 +277,10 @@ impl Palette {
             warning_subtle: c(0x342611),
             danger_subtle: c(0x3a1d1b),
             info_subtle: c(0x19273a),
-            backdrop: rgba(0x00000080).into(),
-            media_backdrop: rgba(0x000000f8).into(),
-            shimmer: rgba(0xffffff10).into(),
-            glass: rgba(0x131110b8).into(),
+            backdrop: rgba(0x00000080).into_color(),
+            media_backdrop: rgba(0x000000f8).into_color(),
+            shimmer: rgba(0xffffff10).into_color(),
+            glass: rgba(0x131110b8).into_color(),
             shadow: c(0x000000),
             tooltip_bg: c(0x373533),
             tooltip_fg: c(0xf3f1f0),

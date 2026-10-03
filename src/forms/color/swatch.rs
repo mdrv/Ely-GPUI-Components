@@ -1,9 +1,9 @@
 use std::rc::Rc;
 
 use gpui::{
-    App, Bounds, Corners, ElementId, Hsla, InteractiveElement, IntoElement, MouseButton,
-    ParentElement, Pixels, Rems, RenderOnce, SharedString, StatefulInteractiveElement, Styled,
-    Window, canvas, div, fill, point, prelude::*, rems, size,
+    canvas, div, fill, point, prelude::*, rems, size, App, Bounds, Corners, ElementId, Hsla,
+    InteractiveElement, IntoElement, MouseButton, ParentElement, Pixels, Rems, RenderOnce,
+    SharedString, StatefulInteractiveElement, Styled, Window,
 };
 
 use super::super::options::Run;
@@ -112,7 +112,7 @@ impl RenderOnce for ColorSwatch {
     fn render(self, _: &mut Window, cx: &mut App) -> impl IntoElement {
         let theme = cx.theme();
         let colors = &theme.colors;
-        let (see_through, radius) = (self.color.a < 1.0, theme.radius(Radius::Sm));
+        let (see_through, radius) = (self.color.alpha < 1.0, theme.radius(Radius::Sm));
         let patch = div()
             .relative()
             .size_full()
@@ -226,7 +226,7 @@ impl RenderOnce for ColorPalette {
 
 #[cfg(test)]
 mod tests {
-    use gpui::{Bounds, point, px, size};
+    use gpui::{point, px, size, Bounds};
 
     use super::dark_cells;
 

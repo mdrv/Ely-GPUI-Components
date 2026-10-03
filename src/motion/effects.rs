@@ -1,17 +1,19 @@
+use gpui::ColorExt as _;
+
 use std::{
     f32::consts::{PI, TAU},
     time::Duration,
 };
 
 use gpui::{
-    Animation, AnimationExt, AnyElement, App, BoxShadow, Div, ElementId, Hsla, IntoElement,
-    ParentElement, Pixels, RenderOnce, StyleRefinement, Styled, Window, canvas, div, point,
-    prelude::*,
+    canvas, div, point, prelude::*, Animation, AnimationExt, AnyElement, App, BoxShadow, Div,
+    ElementId, Hsla, IntoElement, ParentElement, Pixels, RenderOnce, StyleRefinement, Styled,
+    Window,
 };
 use smallvec::SmallVec;
 use web_time::Instant;
 
-use super::{NUDGE, SLOW, duration, ease_out_cubic};
+use super::{duration, ease_out_cubic, NUDGE, SLOW};
 use crate::theme::ActiveTheme;
 
 /// A caret's rhythm, on then off.
@@ -213,7 +215,7 @@ impl Glow {
 
 fn glow(color: Hsla, reach: Pixels, strength: f32) -> Vec<BoxShadow> {
     vec![BoxShadow {
-        color: color.opacity(0.25 * strength),
+        color: color.opacity(0.25 * strength).into(),
         offset: point(Pixels::ZERO, Pixels::ZERO),
         blur_radius: reach * (0.4 + 0.6 * strength),
         spread_radius: Pixels::ZERO,

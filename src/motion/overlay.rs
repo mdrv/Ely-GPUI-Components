@@ -1,3 +1,5 @@
+use gpui::ColorExt as _;
+
 use std::f32::consts::PI;
 
 use gpui::{

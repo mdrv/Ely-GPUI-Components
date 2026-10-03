@@ -1,14 +1,14 @@
 use std::rc::Rc;
 
 use gpui::{
-    App, Bounds, DragMoveEvent, ElementId, EmptyView, Entity, EntityId, Hsla, InteractiveElement,
-    IntoElement, MouseButton, ParentElement, Pixels, RenderOnce, StatefulInteractiveElement,
-    Styled, Window, canvas, div, linear_color_stop, linear_gradient, prelude::*, relative,
+    canvas, div, linear_color_stop, linear_gradient, prelude::*, relative, App, Bounds,
+    DragMoveEvent, ElementId, EmptyView, Entity, EntityId, Hsla, InteractiveElement, IntoElement,
+    MouseButton, ParentElement, Pixels, RenderOnce, StatefulInteractiveElement, Styled, Window,
 };
 
-use super::{ColorPicker, swatch::checker};
+use super::{swatch::checker, ColorPicker};
 use crate::{
-    layout::seeded::{Seeded, use_seeded},
+    layout::seeded::{use_seeded, Seeded},
     primitives::tab_stop,
     theme::{ActiveTheme, ControlSize, Mix, Radius},
 };
@@ -221,7 +221,11 @@ impl RenderOnce for GradientEditor {
                 .rounded(small)
                 .border_2()
                 .border_color(if ix == at {
-                    if focused { colors.focus } else { colors.accent }
+                    if focused {
+                        colors.focus
+                    } else {
+                        colors.accent
+                    }
                 } else {
                     colors.border_strong
                 })
@@ -298,9 +302,9 @@ impl RenderOnce for GradientEditor {
 
 #[cfg(test)]
 mod tests {
-    use gpui::{Hsla, black, white};
+    use gpui::{black, white, Hsla};
 
-    use super::{GradientStop, added, color_at, moved};
+    use super::{added, color_at, moved, GradientStop};
 
     fn stops() -> Vec<GradientStop> {
         vec![

@@ -1,4 +1,5 @@
 use gpui::rgb;
+use palette::IntoColor as _;
 
 use super::{Mode, Palette, Syntax};
 
@@ -21,21 +22,8 @@ impl SyntaxTheme {
 
 /// Thirteen colors in `Syntax`'s field order: keyword, string, number, comment, function, type, constant, property, tag, attribute, operator, punctuation, variable.
 fn syntax(hex: [u32; 13]) -> Syntax {
-    let [
-        keyword,
-        string,
-        number,
-        comment,
-        function,
-        type_name,
-        constant,
-        property,
-        tag,
-        attribute,
-        operator,
-        punctuation,
-        variable,
-    ] = hex.map(|value| rgb(value).into());
+    let [keyword, string, number, comment, function, type_name, constant, property, tag, attribute, operator, punctuation, variable] =
+        hex.map(|value| rgb(value).into_color());
     Syntax {
         keyword,
         string,

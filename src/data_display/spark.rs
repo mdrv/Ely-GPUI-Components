@@ -1,3 +1,5 @@
+use gpui::ColorExt as _;
+
 use gpui::{
     App, Bounds, Div, Hsla, IntoElement, ParentElement, PathBuilder, Pixels, Refineable,
     RenderOnce, StyleRefinement, Styled, Window, canvas, div, fill, point, size,

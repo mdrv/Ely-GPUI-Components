@@ -1,3 +1,5 @@
+use gpui::ColorExt as _;
+
 use std::f32::consts::{FRAC_PI_2, TAU};
 
 use gpui::{

@@ -1,3 +1,5 @@
+use gpui::ColorExt as _;
+
 use std::{
     hash::{DefaultHasher, Hash, Hasher},
     ops::Range,

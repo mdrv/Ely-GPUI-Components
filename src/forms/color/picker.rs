@@ -1,18 +1,20 @@
 use std::rc::Rc;
 
+use gpui::ColorExt as _;
 use gpui::{
+    black, canvas, div, linear_color_stop, linear_gradient, prelude::*, relative, white,
     AnyElement, App, Bounds, Context, DragMoveEvent, ElementId, EmptyView, Entity, EntityId, Hsla,
     InteractiveElement, IntoElement, MouseButton, ParentElement, Pixels, Point, RenderOnce,
-    StatefulInteractiveElement, Styled, Subscription, Window, black, canvas, div,
-    linear_color_stop, linear_gradient, prelude::*, relative, white,
+    StatefulInteractiveElement, Styled, Subscription, Window,
 };
+use palette::IntoColor as _;
 
 use super::{
     super::{InputEvent, TextInput},
-    ColorSwatch, EyeDropper, Hsva,
-    fields::{Commit, Format, SetFormat, format_select, typed_fields},
+    fields::{format_select, typed_fields, Commit, Format, SetFormat},
     hex, parse_hex,
     swatch::checker,
+    ColorSwatch, EyeDropper, Hsva,
 };
 use crate::theme::{ActiveTheme, ControlSize, Elevation, Radius};
 
@@ -68,7 +70,7 @@ impl Picking {
         } else {
             color
         };
-        let value: Hsla = color.to_rgba().into();
+        let value: Hsla = color.to_rgba().into_color();
         self.color = color;
         self.committed = value;
         log::debug!("color picker: {}", hex(color.to_rgba()));
@@ -230,7 +232,7 @@ impl RenderOnce for ColorPicker {
             theme.slider_thumb() * 0.75,
             theme.radius(Radius::Md),
         );
-        let current: Hsla = color.to_rgba().into();
+        let current: Hsla = color.to_rgba().into_color();
         let solid = current.alpha(1.0);
         let hue_at = |degrees: f32| -> Hsla {
             Hsva {
@@ -240,7 +242,7 @@ impl RenderOnce for ColorPicker {
                 a: 1.0,
             }
             .to_rgba()
-            .into()
+            .into_color()
         };
         let thumb = |fill: Hsla, x: f32| {
             div()
@@ -386,9 +388,9 @@ impl RenderOnce for ColorPicker {
 
 #[cfg(test)]
 mod tests {
-    use gpui::{Bounds, point, px, size};
+    use gpui::{point, px, size, Bounds};
 
-    use super::{Area, Hsva, pointed};
+    use super::{pointed, Area, Hsva};
 
     #[test]
     fn pointing_sets_the_part_under_the_pointer() {

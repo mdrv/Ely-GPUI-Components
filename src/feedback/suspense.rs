@@ -1,3 +1,5 @@
+use gpui::ColorExt as _;
+
 use std::{future::Future, rc::Rc};
 
 use gpui::{

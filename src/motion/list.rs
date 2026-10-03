@@ -1,3 +1,5 @@
+use gpui::ColorExt as _;
+
 use std::{collections::HashMap, rc::Rc};
 
 use gpui::{

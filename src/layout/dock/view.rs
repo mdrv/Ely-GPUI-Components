@@ -1,3 +1,5 @@
+use gpui::ColorExt as _;
+
 use gpui::{
     AnyElement, Axis, Context, DragMoveEvent, EmptyView, EntityId, FontWeight, InteractiveElement,
     IntoElement, MouseButton, ParentElement, Pixels, Point, Render, SharedString,

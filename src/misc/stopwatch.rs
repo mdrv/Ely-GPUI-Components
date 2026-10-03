@@ -1,8 +1,8 @@
 use std::time::Duration;
 
 use gpui::{
-    App, ElementId, FocusHandle, InteractiveElement, IntoElement, ParentElement, RenderOnce,
-    Styled, Task, Window, div,
+    App, AppContext as _, ElementId, FocusHandle, InteractiveElement, IntoElement, ParentElement,
+    RenderOnce, Styled, Task, Window, div,
 };
 use web_time::Instant;
 
@@ -121,7 +121,7 @@ impl RenderOnce for Stopwatch {
                 run.update(cx, |run, cx| {
                     edit(run, now);
                     log::info!("stopwatch: {name} at {}", tenths(run.elapsed(now)));
-                    cx.notify();
+                    cx.refresh_windows();
                 });
                 if let Some(then) = &then {
                     window.focus(then, cx);

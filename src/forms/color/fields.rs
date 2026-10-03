@@ -1,6 +1,6 @@
 use std::rc::Rc;
 
-use gpui::{App, Div, ElementId, Entity, ParentElement, SharedString, Styled, Window, div};
+use gpui::{div, App, Div, ElementId, Entity, ParentElement, SharedString, Styled, Window};
 
 use super::{
     super::{Choice, Input, ScrubInput, Select, TextInput},
@@ -93,25 +93,25 @@ pub(crate) fn typed_fields(
                 .child(part(
                     (id.clone(), "red").into(),
                     "R",
-                    rgba.r * 255.0,
+                    rgba.color.red * 255.0,
                     255.0,
-                    channel(|c| &mut c.r),
+                    channel(|c| &mut c.color.red),
                     commit.clone(),
                 ))
                 .child(part(
                     (id.clone(), "green").into(),
                     "G",
-                    rgba.g * 255.0,
+                    rgba.color.green * 255.0,
                     255.0,
-                    channel(|c| &mut c.g),
+                    channel(|c| &mut c.color.green),
                     commit.clone(),
                 ))
                 .child(part(
                     (id.clone(), "blue").into(),
                     "B",
-                    rgba.b * 255.0,
+                    rgba.color.blue * 255.0,
                     255.0,
-                    channel(|c| &mut c.b),
+                    channel(|c| &mut c.color.blue),
                     commit,
                 ))
         }

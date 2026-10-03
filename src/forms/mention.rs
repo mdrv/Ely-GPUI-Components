@@ -1,3 +1,5 @@
+use gpui::ColorExt as _;
+
 use std::{ops::Range, rc::Rc};
 
 use gpui::{

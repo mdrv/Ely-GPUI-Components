@@ -1,14 +1,13 @@
 use std::rc::Rc;
 
 use gpui::{
-    App, ElementId, Hsla, InteractiveElement, IntoElement, ParentElement, Pixels, RenderOnce,
-    SharedString, Styled, Window, div,
+    div, App, ElementId, Hsla, InteractiveElement, IntoElement, ParentElement, Pixels, RenderOnce,
+    SharedString, Styled, Window,
 };
 
 use crate::{
     buttons::{IconButton, SegmentedControl},
-    canvas::color_well,
-    forms::{ColorPalette, Slider},
+    forms::{ColorPalette, ColorSwatch, Slider},
     primitives::IconName,
     theme::{ActiveTheme, Density, Mode, TextSize},
 };
@@ -152,11 +151,7 @@ impl RenderOnce for AccentColorPicker {
                         .on_change(report(picked)),
                 ),
             )
-            .child(color_well(
-                (self.id, "custom").into(),
-                self.color,
-                report(custom),
-            ))
+            .child(ColorSwatch::new((self.id, "custom"), self.color).selected(true))
     }
 }
 

@@ -1,10 +1,10 @@
 use std::rc::Rc;
 
 use gpui::{
-    App, AvailableSpace, Bounds, ContentMask, DispatchPhase, Element, ElementId,
-    ElementInputHandler, Entity, FontStyle, GlobalElementId, Hsla, InspectorElementId, IntoElement,
-    LayoutId, MouseMoveEvent, Pixels, Point, SharedString, StrikethroughStyle, Style, TextAlign,
-    TextRun, UnderlineStyle, Window, WrappedLine, fill, point, relative, size,
+    fill, point, relative, size, App, AvailableSpace, Bounds, ContentMask, DispatchPhase, Element,
+    ElementId, ElementInputHandler, Entity, FontStyle, GlobalElementId, Hsla, InspectorElementId,
+    IntoElement, LayoutId, MouseMoveEvent, Pixels, Point, SharedString, StrikethroughStyle, Style,
+    TextAlign, TextRun, UnderlineStyle, Window, WrappedLine,
 };
 
 use super::{Highlight, Layout, TextInput};
@@ -53,6 +53,7 @@ fn plain_run(len: usize, window: &Window, color: Hsla) -> TextRun {
         background_color: None,
         underline: None,
         strikethrough: None,
+        letter_spacing: None,
     }
 }
 
@@ -219,7 +220,7 @@ impl Element for TextElement {
         let wrap = input.rows().map(|_| bounds.size.width);
         let shaped = window
             .text_system()
-            .shape_text(text.clone().into(), font_size, &runs, wrap, None)
+            .shape_text(text.clone(), font_size, &runs, wrap, None)
             .expect("text input shaping failed");
         let lines: Rc<[(usize, WrappedLine)]> =
             line_starts(&text).into_iter().zip(shaped).collect();
@@ -412,7 +413,7 @@ pub(super) fn selection_rects(
 
 #[cfg(test)]
 mod tests {
-    use gpui::{FontWeight, font, hsla, px};
+    use gpui::{font, hsla, px, FontWeight};
 
     use super::*;
 

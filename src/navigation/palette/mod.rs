@@ -3,6 +3,8 @@ mod launcher;
 #[cfg(all(test, feature = "test-support"))]
 mod tests;
 
+use gpui::ColorExt as _;
+
 use std::{ops::Range, rc::Rc};
 
 use gpui::{

@@ -1,3 +1,5 @@
+use gpui::ColorExt as _;
+
 use gpui::{
     AnyElement, App, Div, ElementId, FontWeight, Hsla, ImageSource, IntoElement, ObjectFit,
     ParentElement, RenderOnce, SharedString, Styled, Window, div, prelude::*,

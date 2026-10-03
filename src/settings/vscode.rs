@@ -1,5 +1,6 @@
 use anyhow::{Context, Result, bail};
 use gpui::Hsla;
+use palette::IntoColor as _;
 use serde_json::Value;
 
 use crate::{
@@ -178,7 +179,7 @@ fn color(value: &Value, what: &str) -> Result<Hsla> {
         .as_str()
         .with_context(|| format!("{what} is not a color"))?;
     let rgba = parse_hex(text).map_err(|error| anyhow::anyhow!("{what}: {error}"))?;
-    Ok(rgba.into())
+    Ok(rgba.into_color())
 }
 
 /// The foreground the theme's token rules give `scope`, if a rule names it.

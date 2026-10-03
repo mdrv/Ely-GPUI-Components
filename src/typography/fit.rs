@@ -1,7 +1,7 @@
 use gpui::{
-    App, Div, ElementId, InteractiveElement, IntoElement, ParentElement, Pixels, RenderOnce,
-    ShapedLine, SharedString, StatefulInteractiveElement, Styled, TextAlign, TextRun, Window,
-    canvas, div, point, prelude::*, relative, transparent_black,
+    canvas, div, point, prelude::*, relative, transparent_black, App, Div, ElementId,
+    InteractiveElement, IntoElement, ParentElement, Pixels, RenderOnce, ShapedLine, SharedString,
+    StatefulInteractiveElement, Styled, TextAlign, TextRun, Window,
 };
 
 use crate::{
@@ -31,6 +31,7 @@ pub(crate) fn text_width(text: &str, size: Pixels, window: &Window) -> Pixels {
         background_color: None,
         underline: None,
         strikethrough: None,
+        letter_spacing: None,
     };
     window
         .text_system()
@@ -242,7 +243,7 @@ impl RenderOnce for EllipsisTooltip {
 
 #[cfg(test)]
 mod tests {
-    use gpui::{TextAlign, px};
+    use gpui::{px, TextAlign};
 
     use super::{elide, offset};
 

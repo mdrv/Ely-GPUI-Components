@@ -1,5 +1,5 @@
 mod calendar;
-mod canvas;
+pub mod canvas;
 mod chart;
 mod dashboard;
 mod files;

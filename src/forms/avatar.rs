@@ -1,3 +1,5 @@
+use gpui::ColorExt as _;
+
 use std::{path::PathBuf, rc::Rc};
 
 use gpui::{

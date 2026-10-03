@@ -1,8 +1,8 @@
 use std::{f32::consts::TAU, rc::Rc, time::Duration};
 
 use gpui::{
-    Animation, AnimationExt, App, ElementId, IntoElement, ParentElement, RenderOnce, Styled,
-    Window, div, prelude::*, radians,
+    div, prelude::*, px, radians, Animation, AnimationExt, App, ElementId, IntoElement,
+    ParentElement, RenderOnce, Styled, Window,
 };
 
 use super::messages::rise;
@@ -10,10 +10,21 @@ use crate::{
     buttons::{Button, ButtonVariant},
     forms::Run,
     primitives::{Icon, IconName},
-    shell::{Connectivity, connectivity_dot},
     theme::{ActiveTheme, IconSize, TextSize},
     typography::format::plural,
 };
+
+/// How connected a session is.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+pub enum Connectivity {
+    /// Linked and live.
+    #[default]
+    Online,
+    /// Linked but the link is negotiating.
+    Reconnecting,
+    /// No link.
+    Offline,
+}
 
 /// One turn of a working sync icon.
 const TURN: Duration = Duration::from_millis(1400);
@@ -157,7 +168,7 @@ impl RenderOnce for SyncStatus {
     }
 }
 
-/// A dot and a word for a live connection: connected, reconnecting or offline. `shell::OfflineIndicator` is the pill that shows while offline or reconnecting, and briefly once back.
+/// A dot and a word for a live connection: connected, reconnecting or offline.
 #[derive(IntoElement)]
 pub struct ConnectionStatus {
     id: ElementId,
@@ -187,7 +198,17 @@ impl RenderOnce for ConnectionStatus {
             .gap_2()
             .text_size(theme.text_size(TextSize::Sm))
             .text_color(theme.colors.fg_muted)
-            .child(connectivity_dot((self.id.clone(), "dot"), self.state, cx))
+            .child(
+                div()
+                    .size(px(8.))
+                    .flex_none()
+                    .rounded_full()
+                    .bg(match self.state {
+                        Connectivity::Online => theme.colors.success,
+                        Connectivity::Reconnecting => theme.colors.warning,
+                        Connectivity::Offline => theme.colors.danger,
+                    }),
+            )
             .child(text);
         rise(self.id, self.state, line, window, cx)
     }

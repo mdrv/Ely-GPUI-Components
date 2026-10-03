@@ -1,3 +1,5 @@
+use gpui::ColorExt as _;
+
 use gpui::{BoxShadow, Hsla, Pixels, Point, Rems, Size, point, px, rems, size};
 
 use super::{Mode, Theme};
