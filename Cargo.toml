@@ -17,7 +17,7 @@ anyhow = "1"
 barcoders = { version = "2", default-features = false, features = ["std"] }
 emojis = "0.9"
 futures = "0.3"
-gpui = { package = "mdrv-gpui-ce", path = "/g/gpui-ce/crates/gpui", default-features = false }
+gpui = { package = "mdrv-gpui-ce", path = "/g/mdrv-gpui-ce/crates/gpui", default-features = false }
 image = { version = "0.25", default-features = false }
 iso_currency = { version = "0.7", features = ["iterator"] }
 isocountry = "0.3"
