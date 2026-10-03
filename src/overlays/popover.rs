@@ -177,7 +177,11 @@ impl RenderOnce for Popover {
             state.update(cx, |pop, _| pop.takeover = Some(takeover));
         }
         if !focus.contains_focused(window, cx) {
-            log::info!("popover {:?}: focus left", self.id);
+            log::info!(
+                "popover {:?}: focus left (focused_some={})",
+                self.id,
+                window.focused(cx).is_some()
+            );
             close(&state, window, cx);
             return host;
         }

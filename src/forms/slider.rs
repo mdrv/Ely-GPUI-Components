@@ -3,9 +3,11 @@ use gpui::ColorExt as _;
 use std::rc::Rc;
 
 use gpui::{
-    AnyElement, App, Bounds, DragMoveEvent, ElementId, EmptyView, EntityId, InteractiveElement,
-    IntoElement, MouseButton, ParentElement, Pixels, Point, RenderOnce, StatefulInteractiveElement,
-    Styled, Window, canvas, div, prelude::*, relative,
+    AnyElement, App, Bounds, DispatchPhase, DragMoveEvent, ElementId, EmptyView, EntityId,
+    InteractiveElement, IntoElement, MouseButton, MouseMoveEvent, MouseUpEvent, ParentElement,
+    ScrollWheelEvent,
+    Pixels, Point, RenderOnce, StatefulInteractiveElement, Styled, Window, canvas, div,
+    prelude::*, relative,
 };
 
 use super::options::OnNumber;
@@ -78,6 +80,11 @@ impl Track {
         let measured = window.use_keyed_state((self.id.clone(), "bounds"), cx, |_, _| {
             Bounds::<Pixels>::default()
         });
+        // True while a touch/pointer drag drives this track (the fork's
+        // finger-drags deliver pressed MouseMoves without a MouseDown, so
+        // gpui's on_drag/on_drag_move session never starts on Android; see
+        // the window-level listeners in the canvas paint closure below).
+        let active = window.use_keyed_state((self.id.clone(), "active"), cx, |_, _| false);
         let handles: Vec<_> = (0..self.values.len())
             .map(|k| {
                 tab_stop(
@@ -190,6 +197,10 @@ impl Track {
         let (drag, jump) = (self.commit.clone(), self.commit);
         let (values, focus) = (self.values, handles);
         let bounds_state = measured.clone();
+        let drag_window = drag.clone();
+        let measured_paint = measured.clone();
+        let grabbed_paint = grabbed.clone();
+        let active_paint = active.clone();
         let inner = div()
             .id((self.id.clone(), "inner"))
             .relative()
@@ -204,7 +215,60 @@ impl Track {
                             bounds_state.update(cx, |state, _| *state = bounds);
                         }
                     },
-                    |_, _, _, _| {},
+                    move |_, _, window, cx| {
+                        // Window-level continuation: keeps the thumb
+                        // following the finger after it leaves the track
+                        // hitbox (registered every paint, no-ops unless a
+                        // drag is active).
+                        let active = active_paint.clone();
+                        let drag = drag_window.clone();
+                        let measured = measured_paint.clone();
+                        let grabbed = grabbed_paint.clone();
+                        window.on_mouse_event(
+                            move |_: &MouseMoveEvent,
+                                  phase: DispatchPhase,
+                                  window: &mut Window,
+                                  cx: &mut App| {
+                                if phase != DispatchPhase::Capture || !*active.read(cx) {
+                                    return;
+                                }
+                                let bounds = *measured.read(cx);
+                                let next = value_at(
+                                    along(bounds, window.mouse_position(), vertical),
+                                    min,
+                                    max,
+                                    step,
+                                );
+                                drag(*grabbed.read(cx), next, window, cx);
+                            },
+                        );
+                        // A slider drag owns the gesture: while active, swallow
+                        // scroll so a finger that drifts vertically (or a
+                        // two-axis touch the fork classifies as scrolling)
+                        // adjusts the thumb without scrolling the page too.
+                        let active = active_paint.clone();
+                        window.on_mouse_event(
+                            move |_: &ScrollWheelEvent,
+                                  phase: DispatchPhase,
+                                  _window: &mut Window,
+                                  cx: &mut App| {
+                                if phase == DispatchPhase::Capture && *active.read(cx) {
+                                    cx.stop_propagation();
+                                }
+                            },
+                        );
+                        let active = active_paint.clone();
+                        window.on_mouse_event(
+                            move |_: &MouseUpEvent,
+                                  _: DispatchPhase,
+                                  _window: &mut Window,
+                                  cx: &mut App| {
+                                if *active.read(cx) {
+                                    active.update(cx, |active, _| *active = false);
+                                }
+                            },
+                        );
+                    },
                 )
                 .absolute()
                 .top_0()
@@ -213,6 +277,12 @@ impl Track {
             )
             .when(!self.disabled, |inner| {
                 let grab = grabbed.clone();
+                let active_el = active.clone();
+                let measured_move = measured.clone();
+                let drag_el = drag.clone();
+                let grab_move = grabbed.clone();
+                let values_move = values.clone();
+                let focus_move = focus.clone();
                 inner
                     .on_drag(Thumb { owner, index: None }, |_, _, _, cx| {
                         cx.new(|_| EmptyView)
@@ -242,6 +312,30 @@ impl Track {
                         grab.update(cx, |grab, _| *grab = index);
                         window.focus(&focus[index], cx);
                         jump(index, next, window, cx);
+                    })
+                    // Initiation for touch: the fork delivers pressed
+                    // MouseMoves during a drag with no preceding MouseDown,
+                    // so a pressed move over the track starts the drag here.
+                    .on_mouse_move(move |event: &MouseMoveEvent, window, cx| {
+                        if event.pressed_button != Some(MouseButton::Left)
+                            || *active_el.read(cx)
+                        {
+                            return;
+                        }
+                        let bounds = *measured_move.read(cx);
+                        if bounds == Bounds::<Pixels>::default() {
+                            return; // not laid out yet
+                        }
+                        let next =
+                            value_at(along(bounds, event.position, vertical), min, max, step);
+                        let index = match values_move.as_slice() {
+                            [low, high] if (next - high).abs() < (next - low).abs() => 1,
+                            _ => 0,
+                        };
+                        active_el.update(cx, |active, _| *active = true);
+                        grab_move.update(cx, |grab, _| *grab = index);
+                        window.focus(&focus_move[index], cx);
+                        drag_el(index, next, window, cx);
                     })
             });
         div()
