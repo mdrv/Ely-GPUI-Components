@@ -1,4 +1,4 @@
-//! The component showcase: Ely GPUI components running on the mdrv-gpui-ce
+//! The component showcase: Ely GPUI components running on the mdrv-gpui
 //! fork, Android touch first.
 //!
 //! Layout: a header, a wrapped row of section chips, then ONE component family

@@ -1,5 +1,5 @@
 //! MDRV GPUI + Ely examples — an Android showcase of as many Ely GPUI
-//! components as practical, running on the mdrv-gpui-ce fork.
+//! components as practical, running on the mdrv-gpui fork.
 //!
 //! Package id on Android: `id.mdrv.ely.examples` ("MDRV Ely Examples") so it
 //! installs alongside `id.mdrv.mobile.example` and the upstream
