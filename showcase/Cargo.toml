@@ -3,14 +3,14 @@ name = "mdrv-gpui-ely-examples"
 version = "0.1.0"
 edition = "2021"
 publish = false
-description = "Ely GPUI components showcase on mdrv-gpui-ce for Android"
+description = "Ely GPUI components showcase on mdrv-gpui for Android"
 
 [lib]
 name = "ely_examples"
 crate-type = ["rlib", "cdylib"]
 
 [dependencies]
-gpui = { package = "mdrv-gpui-ce", path = "/g/mdrv-gpui-ce/crates/gpui", default-features = false }
+gpui = { package = "mdrv-gpui", path = "/g/mdrv-gpui/crates/gpui", default-features = false }
 gpui-mobile = { path = "/g/mdrv-gpui-mobile" }
 log = "0.4"
 ely-gpui-component = { path = ".." }
@@ -29,5 +29,5 @@ path = "examples/web_min.rs"
 
 [target.'cfg(target_family = "wasm")'.dev-dependencies]
 wasm-bindgen = "=0.2.129"
-gpui_web = { package = "mdrv-gpui-web", path = "/g/mdrv-gpui-ce/crates/gpui_web" }
-gpui_platform = { package = "mdrv-gpui-platform", path = "/g/mdrv-gpui-ce/crates/gpui_platform" }
+gpui_web = { package = "mdrv-gpui-web", path = "/g/mdrv-gpui/crates/gpui_web" }
+gpui_platform = { package = "mdrv-gpui-platform", path = "/g/mdrv-gpui/crates/gpui_platform" }

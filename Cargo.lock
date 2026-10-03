@@ -325,7 +325,7 @@ dependencies = [
 [[package]]
 name = "arrayref"
 version = "0.3.9"
-source = "git+https://github.com/mdrv/mdrv-gpui-ce#c8067b0f6be8a320e25c46e87f391384c3641661"
+source = "git+https://github.com/mdrv/mdrv-gpui#144198aa966fa9824ca5d9e0f5ef606677d63c9e"
 
 [[package]]
 name = "arrayvec"
@@ -1664,7 +1664,7 @@ dependencies = [
  "jiff",
  "js-sys",
  "log",
- "mdrv-gpui-ce",
+ "mdrv-gpui",
  "objc",
  "palette",
  "pulldown-cmark",
@@ -2411,7 +2411,7 @@ dependencies = [
  "jni 0.22.4",
  "libc",
  "log",
- "mdrv-gpui-ce",
+ "mdrv-gpui",
  "mdrv-gpui-wgpu",
  "ndk",
  "ndk-context",
@@ -3359,33 +3359,8 @@ dependencies = [
 ]
 
 [[package]]
-name = "mdrv-gpui-apple"
-version = "0.0.260925"
-dependencies = [
- "anyhow",
- "block",
- "core-foundation",
- "core-graphics",
- "core-video",
- "derive_more",
- "etagere",
- "foreign-types",
- "image",
- "log",
- "mdrv-gpui-ce",
- "mdrv-gpui-collections",
- "mdrv-gpui-render",
- "metal",
- "objc2 0.6.4",
- "objc2-quartz-core 0.3.2",
- "parking_lot",
- "smallvec",
- "wgsl-rs",
-]
-
-[[package]]
-name = "mdrv-gpui-ce"
-version = "0.0.260925"
+name = "mdrv-gpui"
+version = "0.270.0"
 dependencies = [
  "accesskit",
  "anyhow",
@@ -3456,8 +3431,33 @@ dependencies = [
 ]
 
 [[package]]
+name = "mdrv-gpui-apple"
+version = "0.270.0"
+dependencies = [
+ "anyhow",
+ "block",
+ "core-foundation",
+ "core-graphics",
+ "core-video",
+ "derive_more",
+ "etagere",
+ "foreign-types",
+ "image",
+ "log",
+ "mdrv-gpui",
+ "mdrv-gpui-collections",
+ "mdrv-gpui-render",
+ "metal",
+ "objc2 0.6.4",
+ "objc2-quartz-core 0.3.2",
+ "parking_lot",
+ "smallvec",
+ "wgsl-rs",
+]
+
+[[package]]
 name = "mdrv-gpui-collections"
-version = "0.0.260925"
+version = "0.270.0"
 dependencies = [
  "indexmap",
  "mdrv-gpui-util",
@@ -3466,7 +3466,7 @@ dependencies = [
 
 [[package]]
 name = "mdrv-gpui-derive-refineable"
-version = "0.0.260925"
+version = "0.270.0"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3481,7 +3481,7 @@ dependencies = [
  "ely-gpui-component",
  "gpui-mobile",
  "log",
- "mdrv-gpui-ce",
+ "mdrv-gpui",
  "mdrv-gpui-platform",
  "mdrv-gpui-web",
  "wasm-bindgen",
@@ -3489,7 +3489,7 @@ dependencies = [
 
 [[package]]
 name = "mdrv-gpui-linux"
-version = "0.0.260925"
+version = "0.270.0"
 dependencies = [
  "accesskit",
  "accesskit_unix",
@@ -3506,7 +3506,7 @@ dependencies = [
  "itertools 0.14.0",
  "libc",
  "log",
- "mdrv-gpui-ce",
+ "mdrv-gpui",
  "mdrv-gpui-collections",
  "mdrv-gpui-util",
  "mdrv-gpui-wgpu",
@@ -3535,7 +3535,7 @@ dependencies = [
 
 [[package]]
 name = "mdrv-gpui-macos"
-version = "0.0.260925"
+version = "0.270.0"
 dependencies = [
  "accesskit",
  "accesskit_macos",
@@ -3557,8 +3557,8 @@ dependencies = [
  "libc",
  "log",
  "mach2",
+ "mdrv-gpui",
  "mdrv-gpui-apple",
- "mdrv-gpui-ce",
  "mdrv-gpui-collections",
  "mdrv-gpui-media",
  "mdrv-gpui-util",
@@ -3582,7 +3582,7 @@ dependencies = [
 
 [[package]]
 name = "mdrv-gpui-macros"
-version = "0.0.260925"
+version = "0.270.0"
 dependencies = [
  "heck",
  "proc-macro2",
@@ -3592,7 +3592,7 @@ dependencies = [
 
 [[package]]
 name = "mdrv-gpui-media"
-version = "0.0.260925"
+version = "0.270.0"
 dependencies = [
  "anyhow",
  "bindgen",
@@ -3605,11 +3605,11 @@ dependencies = [
 
 [[package]]
 name = "mdrv-gpui-platform"
-version = "0.0.260925"
+version = "0.270.0"
 dependencies = [
  "console_error_panic_hook",
+ "mdrv-gpui",
  "mdrv-gpui-apple",
- "mdrv-gpui-ce",
  "mdrv-gpui-linux",
  "mdrv-gpui-macos",
  "mdrv-gpui-web",
@@ -3618,16 +3618,16 @@ dependencies = [
 
 [[package]]
 name = "mdrv-gpui-refineable"
-version = "0.0.260925"
+version = "0.270.0"
 dependencies = [
  "mdrv-gpui-derive-refineable",
 ]
 
 [[package]]
 name = "mdrv-gpui-render"
-version = "0.0.260925"
+version = "0.270.0"
 dependencies = [
- "mdrv-gpui-ce",
+ "mdrv-gpui",
  "naga 24.0.0",
  "naga 29.0.4",
  "wgsl-rs",
@@ -3636,7 +3636,7 @@ dependencies = [
 
 [[package]]
 name = "mdrv-gpui-scheduler"
-version = "0.0.260925"
+version = "0.270.0"
 dependencies = [
  "async-task",
  "backtrace",
@@ -3651,7 +3651,7 @@ dependencies = [
 
 [[package]]
 name = "mdrv-gpui-shared-string"
-version = "0.0.260925"
+version = "0.270.0"
 dependencies = [
  "schemars",
  "serde",
@@ -3660,7 +3660,7 @@ dependencies = [
 
 [[package]]
 name = "mdrv-gpui-sum-tree"
-version = "0.0.260925"
+version = "0.270.0"
 dependencies = [
  "heapless",
  "log",
@@ -3670,7 +3670,7 @@ dependencies = [
 
 [[package]]
 name = "mdrv-gpui-util"
-version = "0.0.260925"
+version = "0.270.0"
 dependencies = [
  "anyhow",
  "log",
@@ -3679,7 +3679,7 @@ dependencies = [
 
 [[package]]
 name = "mdrv-gpui-web"
-version = "0.0.260925"
+version = "0.270.0"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -3687,7 +3687,7 @@ dependencies = [
  "http",
  "js-sys",
  "log",
- "mdrv-gpui-ce",
+ "mdrv-gpui",
  "mdrv-gpui-scheduler",
  "mdrv-gpui-wgpu",
  "parking_lot",
@@ -3702,7 +3702,7 @@ dependencies = [
 
 [[package]]
 name = "mdrv-gpui-wgpu"
-version = "0.0.260925"
+version = "0.270.0"
 dependencies = [
  "anyhow",
  "core-foundation",
@@ -3712,7 +3712,7 @@ dependencies = [
  "itertools 0.14.0",
  "js-sys",
  "log",
- "mdrv-gpui-ce",
+ "mdrv-gpui",
  "mdrv-gpui-collections",
  "mdrv-gpui-render",
  "mdrv-gpui-util",
@@ -3740,7 +3740,7 @@ dependencies = [
 
 [[package]]
 name = "mdrv-gpui-windows"
-version = "0.0.260925"
+version = "0.270.0"
 dependencies = [
  "accesskit",
  "accesskit_windows",
@@ -3751,7 +3751,7 @@ dependencies = [
  "image",
  "itertools 0.14.0",
  "log",
- "mdrv-gpui-ce",
+ "mdrv-gpui",
  "mdrv-gpui-collections",
  "mdrv-gpui-render",
  "mdrv-gpui-util",

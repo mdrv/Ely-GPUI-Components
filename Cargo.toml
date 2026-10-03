@@ -17,7 +17,7 @@ anyhow = "1"
 barcoders = { version = "2", default-features = false, features = ["std"] }
 emojis = "0.9"
 futures = "0.3"
-gpui = { package = "mdrv-gpui-ce", path = "/g/mdrv-gpui-ce/crates/gpui", default-features = false }
+gpui = { package = "mdrv-gpui", path = "/g/mdrv-gpui/crates/gpui", default-features = false }
 image = { version = "0.25", default-features = false }
 iso_currency = { version = "0.7", features = ["iterator"] }
 isocountry = "0.3"
@@ -136,7 +136,7 @@ strip = true
 
 [patch.crates-io]
 # crates.io arrayref is yanked/broken (via tiny-skia); use the fork's vendor copy.
-arrayref = { git = "https://github.com/mdrv/mdrv-gpui-ce" }
+arrayref = { git = "https://github.com/mdrv/mdrv-gpui" }
 # gpui's scheduler uses Zed's wasm_thread fork while another dep pulls the
 # crates.io release; both export the same thread entry symbols and lld fails
 # with duplicates on wasm. Redirect to the fork so exactly one gets linked.
