@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+		<meta charset='utf-8' />
+		<meta name='viewport' content='width=device-width, initial-scale=1' />
+		<title>MDRV GPUI Ely</title>
+		<style>
+		html, body {
+			margin: 0;
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+			background: #fcfaf7;
+		}
+		html.dark, html.dark body {
+			background: #131110;
+		}
+		</style>
+		<script>
+		// Ground under the canvas until the first frame, following the OS theme.
+		if (matchMedia('(prefers-color-scheme: dark)').matches) {
+			document.documentElement.classList.add('dark')
+		}
+		</script>
+		<script type='module'>
+		import init from './web.js'
+		// Frames that fetch the wasm at once can fail one; the next try finds it cached.
+		for (let attempt = 1;; attempt++) {
+			try {
+				await init()
+				break
+			} catch (error) {
+				console.warn(`ely-examples: start failed, try ${attempt}`, error)
+				if (attempt === 3) throw error
+				await new Promise((wake) => setTimeout(wake, 1000 * attempt))
+			}
+		}
+		</script>
+		<script>
+		// Capture console + errors for headless debugging: `window.__c`.
+		window.__c = []
+		window.addEventListener(
+			'error',
+			(e) =>
+				window.__c.push(
+					'E: ' + e.message + ' @ ' + e.filename + ':' + e.lineno,
+				),
+		)
+		window.addEventListener(
+			'unhandledrejection',
+			(e) =>
+				window.__c.push('R: ' + (e.reason && (e.reason.message || e.reason))),
+		)
+		for (const kind of ['error', 'warn', 'log', 'info']) {
+			const orig = console[kind].bind(console)
+			console[kind] = (...args) => {
+				try {
+					window.__c.push(
+						kind[0].toUpperCase() + ': '
+							+ args.map((a) => (typeof a === 'string' ? a : JSON.stringify(a)))
+								.join(' ').slice(0, 4000),
+					)
+				} catch {}
+				orig(...args)
+			}
+		}
+		</script>
+	</head>
+	<body></body>
+</html>

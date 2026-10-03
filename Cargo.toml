@@ -117,3 +117,27 @@ path = "examples/docs/overlays.rs"
 [[example]]
 name = "docs_i18n"
 path = "examples/docs/i18n.rs"
+
+# ── Workspace (mdrv): the lib plus the Android/web showcase app.
+[workspace]
+members = ["showcase"]
+
+# Profiles live at the workspace root only. [profile.web]/[webdbg] are the
+# showcase's wasm builds (size-first; LTO off — wasm_thread rlib bitcode).
+[profile.webdbg]
+inherits = "web"
+debug = "line-tables-only"
+strip = false
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+strip = true
+
+[patch.crates-io]
+# crates.io arrayref is yanked/broken (via tiny-skia); use the fork's vendor copy.
+arrayref = { git = "https://github.com/mdrv/mdrv-gpui-ce" }
+# gpui's scheduler uses Zed's wasm_thread fork while another dep pulls the
+# crates.io release; both export the same thread entry symbols and lld fails
+# with duplicates on wasm. Redirect to the fork so exactly one gets linked.
+wasm_thread = { git = "https://github.com/zed-industries/wasm_thread", rev = "0cf96c7708dfb97ccf3da50347e25edcf75d6937" }

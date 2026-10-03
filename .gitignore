@@ -2,3 +2,13 @@
 node_modules/
 /frontend/dist/
 .DS_Store
+
+# showcase (mdrv): app + android build outputs
+/showcase/target/
+/showcase/android/build/
+/showcase/android/app/build/
+/showcase/android/.gradle/
+/showcase/android/local.properties
+/showcase/android/app/src/main/jniLibs/*/*.so
+/showcase/web/*.wasm
+/showcase/web/*.js
